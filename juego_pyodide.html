@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Juego Interactivo</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Color de fondo */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            margin-top: 50px;
+        }
+        p {
+            color: #666;
+            font-size: 18px;
+        }
+        #game {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #number {
+            font-weight: bold;
+            color: blue;
+            font-size: 20px;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Mi Juego Interactivo</h1>
+    <p>¡Tus decisiones cambian el resultado!</p>
+
+    <div id="game">
+        <p id="text"></p>
+        <p>Valor actual: <span id="number">0</span></p>
+        <div id="buttons"></div>
+    </div>
+
+    <img src="ruta/a/tu/imagen.jpg" alt="Imagen descriptiva" width="300">
+
+    <div id="info">
+        <p>Este juego fue creado por [Tu Nombre].</p>
+        <p>¡Diviértete tomando decisiones!</p>
+    </div>
+
+    <!-- Incluye Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script>
+        async function main() {
+
+    <!-- Incluye Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script>
+        async function main() {
+            // Inicializa Pyodide
+            let pyodide = await loadPyodide();
+
+            // Escribe tu código Python aquí
+            await pyodide.runPython(`
+                from js import document
+
+                game_div = document.getElementById("game")
+                text_div = document.getElementById("text")
+                buttons_div = document.getElementById("buttons")
+                number_span = document.getElementById("number")
+
+                # Variable para almacenar el valor numérico
+                current_value = 100
+
+                def update_number(value):
+                    global current_value
+                    current_value = value
+                    number_span.textContent = str(current_value)
+
+                def create_button_click_handler(next_id, value_change):
+                    def handler(event):
+                        update_number(current_value + value_change)
+                        show_screen(next_id)
+                    return handler
+
+                def show_screen(screen_id):
+                    screen = screens[screen_id]
+                    text_div.innerHTML = screen["text"]
+                    buttons_div.innerHTML = ""
+                    for option in screen["options"]:
+                        button = document.createElement("button")
+                        button.textContent = option["text"]
+                        # Usa una función regular en lugar de lambda
+                        button.onclick = create_button_click_handler(option["nextId"], option.get("valueChange", 0))
+                        buttons_div.appendChild(button)
+
+                screens = {
+                    1: {
+                        "text": "Holaaaa, en este juego deberas elegir entre dos opciones ,pero asegurate que elijas la correcta para no bajar tu autoestima",
+                        "options": [
+                            {"text": "Te gusta mas miguel?", "nextId": 2, "valueChange": 50},
+                            {"text": "Te gusta mas edilberto?", "nextId": 3, "valueChange": -50},
+                        ],
+                    },
+                    2: {
+                        "text": "Has escogido a miguel, eso subio tu atoestima, pero decide que deberas darle de navidad cuando se casen",
+                        "options": [
+                            {"text": "un gatito", "nextId": 4, "valueChange": 25},
+                            {"text": "Dulces", "nextId": 5, "valueChange": -15},
+                        ],
+                    },
+                    3: {
+                        "text": "Has escogido a edilberto, eso bajo tu atoestima, pero decide que deberas darle de navidad cuando se casen",
+                        "options": [
+                            {"text": "Un gatito", "nextId": 4, "valueChange": 25},
+                            {"text": "dulces", "nextId": 5, "valueChange": -15},
+                        ],
+                    },
+                    4: {
+                        "text": "No puedo creer que le hayas dado un gato de navidad pero como me caes bien te doy puntos por eso",
+                        "options": [
+                            {"text": "un gatito", "nextId": 1, "valueChange": 25},
+                            {"text": "Dulces", "nextId": 1, "valueChange": -15},
+                        ],
+                    },
+                    5: {
+                        "text": "Dulces? pufff eres una avara camila reflexiona te bajo puntos por eso",
+                        "options": [
+                            {"text": "Un gatito", "nextId": 1, "valueChange": 25},
+                            {"text": "dulces", "nextId": 1, "valueChange": 15},
+                        ],
+                    },
+                    # Agrega más pantallas aquí...
+                }
+
+                show_screen(1)
+            `);
+        }
+        main();
+    </script>
+</body>
+</html>
