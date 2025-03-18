@@ -5,23 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestro Juego Interactivo</title>
     <style>
-        body {
-            background-color: #f0f0f0; /* Color de fondo */
+      body {
+            background-image: url(https://media.istockphoto.com/id/860035762/es/foto/la-silueta-de-un-avi%C3%B3n-de-pasajeros-volando-en-puesta-del-sol.jpg?s=612x612&w=0&k=20&c=IgE5FLPSb0ao5ttRdcQ6CxfyQuNFUyCckf4NcOl83iA=); /* Ruta de la imagen */
+            background-size: cover; /* Ajusta la imagen al tamaño de la pantalla */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 0;
+            margin: 0; /* Elimina el margen predeterminado del body */
             padding: 0;
+            font-family: Arial, sans-serif; /* Fuente del texto */
+            color: white; /* Color del texto (ajusta según el fondo) */
         }
         h1 {
-            color: #333;
-            margin-top: 50px;
+            font-size: 48px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b, #ff6a00, #ee0979, #ff6a00, #feb47b, #ff7e5f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: tornasol 5s linear infinite;
+        }
+
+        @keyframes tornasol {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
         }
         p {
-            color: #666;
+            color: white;
             font-size: 18px;
         }
         #game {
-            background-color: white;
+            background-color: transparent;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -29,7 +47,7 @@
             max-width: 600px;
         }
         button {
-            background-color: #4CAF50;
+            background-color: black;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -53,29 +71,26 @@
     </style>
 </head>
 <body>
-<h1>Mi Juego Interactivo</h1>
+    
+<h1>Nuestro Juego Interactivo🚀</h1>
     <p>¡Tus decisiones cambian el resultado!</p>
+    <p>¡Cuida tu economía y ten cuidado con las chicas en el camino!, algunas te ayudaran a crecer mientras que otras...bueno, ya sabes</p>
+    <p>Tu vida es el resultado de de las desiciones que has tomado</p>
+    <p>Si no te gusta tu vida, es el momento de empezar a tomar mejores desiciones</p>
 
     <div id="game">
         <p id="text"></p>
-        <p>Valor actual: <span id="number">0</span></p>
+        <p>Dinero disponible: <span id="number">0</span></p>
         <div id="buttons"></div>
     </div>
 
-    <img src="ruta/a/tu/imagen.jpg" alt="Imagen descriptiva" width="300">
-
     <div id="info">
-        <p>Este juego fue creado por [Tu Nombre].</p>
+        <p>Este juego fue creado por los 4 fantásticos.</p>
         <p>¡Diviértete tomando decisiones!</p>
     </div>
-
-    <!-- Incluye Pyodide -->
+  <!-- Incluye Pyodide -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-    <script>
-        async function main() {
-
-    <!-- Incluye Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    
     <script>
         async function main() {
             // Inicializa Pyodide
@@ -84,6 +99,7 @@
             // Escribe tu código Python aquí
             await pyodide.runPython(`
                 from js import document
+                
 
                 game_div = document.getElementById("game")
                 text_div = document.getElementById("text")
@@ -91,7 +107,7 @@
                 number_span = document.getElementById("number")
 
                 # Variable para almacenar el valor numérico
-                current_value = 100
+                current_value = 0
 
                 def update_number(value):
                     global current_value
@@ -117,34 +133,40 @@
 
                 screens = {
                     1: {
-                        "text": "Holaaaa, en este juego deberas elegir entre dos opciones ,pero asegurate que elijas la correcta para no bajar tu autoestima",
+                        "text": "Bienvenido a nuestra pagina web de desiciones, en este juego deberas elegir entre dos opciones pero asegurate que elijas la correcta para no perder dinero",
                         "options": [
-                            {"text": "Te gusta mas miguel?", "nextId": 2, "valueChange": 50},
-                            {"text": "Te gusta mas edilberto?", "nextId": 3, "valueChange": -50},
+                            {"text": "Quiero continuar", "nextId": 2, "valueChange": 50},
+                            {"text": "No me interesa", "nextId": 3, "valueChange": -50},
                         ],
                     },
                     2: {
-                        "text": "Has escogido a miguel, eso subio tu atoestima, pero decide que deberas darle de navidad cuando se casen",
+                        "text": "Para tu primera desición debes decidir si entraras a trabajar con un contrato permanente, o uno por prestación de servicios, evidentemente necesitas trabajar para empezar a ganar dinero, ¿no crees?",
                         "options": [
                             {"text": "un gatito", "nextId": 4, "valueChange": 25},
                             {"text": "Dulces", "nextId": 5, "valueChange": -15},
                         ],
                     },
                     3: {
-                        "text": "Has escogido a edilberto, eso bajo tu atoestima, pero decide que deberas darle de navidad cuando se casen",
+                        "text": "Entonces pa que viene a la página gran pendejo, aqui le dejo dos botones, uno es pa tiktok y el otro es para instagram, para que sigas scroleando y chateando infinitamente para luego quejarte de lo mal que esta el mundo ",
                         "options": [
-                            {"text": "Un gatito", "nextId": 4, "valueChange": 25},
-                            {"text": "dulces", "nextId": 5, "valueChange": -15},
+                            {"text": "tiktok", "nextId": 4, "valueChange": -25},
+                            {"text": "instagram", "nextId": 4, "valueChange": -25},
                         ],
                     },
                     4: {
-                        "text": "No puedo creer que le hayas dado un gato de navidad pero como me caes bien te doy puntos por eso",
+                        "text": "JAJAJAJAJA ya te creias que te iba a dejar un link para que vaguear se te hiciera mas facil, pues no, deja la vagancia y estudia ingeniería",
                         "options": [
-                            {"text": "un gatito", "nextId": 1, "valueChange": 25},
-                            {"text": "Dulces", "nextId": 1, "valueChange": -15},
+                            {"text": "volver al inicio", "nextId": 1, "valueChange": 0},
                         ],
                     },
                     5: {
+                        "text": "Dulces? pufff eres una avara camila reflexiona te bajo puntos por eso",
+                        "options": [
+                            {"text": "Un gatito", "nextId": 1, "valueChange": 25},
+                            {"text": "dulces", "nextId": 1, "valueChange": 15},
+                        ],
+                    },
+                    6: {
                         "text": "Dulces? pufff eres una avara camila reflexiona te bajo puntos por eso",
                         "options": [
                             {"text": "Un gatito", "nextId": 1, "valueChange": 25},
@@ -159,5 +181,34 @@
         }
         main();
     </script>
+<div>
+<h1>Recuerda que puedes escuchar música lofi gratis aqui en nuestra pagina web 🎧</h1>
+<div class="left">
+    <img src="https://media.tenor.com/0hjOGLFaQa0AAAAM/lofi-girl-lofi.gif" alt="GIF animado">
+</div>
+<audio id="audio" controls>
+    <source src="https://academiausbbogedu-my.sharepoint.com/personal/aduques_academia_usbbog_edu_co/_layouts/15/download.aspx?share=ES6i4CfETm9JgL0ht7ohw6kB2ZWXnhJ4drHpVcberpP-tg" type="audio/mpeg">
+</audio>
+<script>
+    const audio = document.getElementById("audio");
+
+    function playAudio() {
+        audio.play();
+    }
+
+    function pauseAudio() {
+        audio.pause();
+    }
+</script>
+</div>
+<div id="Bibliografías">
+}
+<p id="Bibliografías"></p>
+<p>Bibliografías</p>
+<p>Gif recuperado de: https://media.tenor.com/0hjOGLFaQa0AAAAM/lofi-girl-lofi.gif</p>
+<p>Audio recuperado de: https://www.youtube.com/watch?v=-R0UYHS8A_A</p>
+<color:white></color:white>
+}
+</div>
 </body>
 </html>
