@@ -35,35 +35,65 @@
 
 const marker = document.querySelector('#marker');
 
-for(let x = -2; x <= 2; x += 0.5){
+// GENERAR MUCHOS VECTORES
+for(let x = -3; x <= 3; x += 0.25){
 
-  for(let y = -2; y <= 2; y += 0.5){
+  for(let y = -3; y <= 3; y += 0.25){
 
+    // Campo F(x,y)=(-y,x)
     let vx = -y;
     let vy = x;
 
+    // Magnitud
     let mag = Math.sqrt(vx*vx + vy*vy);
 
+    // Evitar división por cero
     if(mag === 0) continue;
 
+    // Normalizar
     vx /= mag;
     vy /= mag;
 
+    // Ángulo
     let angle = Math.atan2(vy, vx) * 180 / Math.PI;
 
-    let arrow = document.createElement('a-box');
+    // CONTENEDOR DEL VECTOR
+    let vector = document.createElement('a-entity');
 
-    arrow.setAttribute('position', `${x} ${y} 0`);
+    vector.setAttribute('position', `${x} ${y} 0`);
+    vector.setAttribute('rotation', `0 0 ${angle}`);
 
-    arrow.setAttribute('depth', '0.02');
-    arrow.setAttribute('height', '0.02');
-    arrow.setAttribute('width', '0.4');
+    // CUERPO DEL VECTOR
+    let body = document.createElement('a-box');
 
-    arrow.setAttribute('color', 'blue');
+    body.setAttribute('depth', '0.02');
+    body.setAttribute('height', '0.03');
+    body.setAttribute('width', '0.35');
 
-    arrow.setAttribute('rotation', `0 0 ${angle}`);
+    body.setAttribute('color', 'blue');
 
-    marker.appendChild(arrow);
+    body.setAttribute('position', '0.15 0 0');
+
+    // PUNTA DEL VECTOR
+    let tip = document.createElement('a-cone');
+
+    tip.setAttribute('radius-bottom', '0.06');
+    tip.setAttribute('radius-top', '0');
+
+    tip.setAttribute('height', '0.12');
+
+    tip.setAttribute('color', 'red');
+
+    tip.setAttribute('rotation', '0 0 -90');
+
+    tip.setAttribute('position', '0.35 0 0');
+
+    // AGREGAR PARTES
+    vector.appendChild(body);
+    vector.appendChild(tip);
+
+    // AGREGAR AL MARKER
+    marker.appendChild(vector);
   }
 }
 
