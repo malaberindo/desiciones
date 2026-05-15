@@ -10,15 +10,19 @@
 
 <body style="margin:0; overflow:hidden;">
 
-<a-scene embedded arjs>
+<a-scene
+ embedded
+ arjs
+ vr-mode-ui="enabled: false"
+ renderer="logarithmicDepthBuffer: true;">
 
   <a-marker preset="hiro" id="marker">
 
-    <!-- Texto -->
-    <a-text value="F(x,y)=(-y,x)"
-            position="-2 2 0"
-            color="yellow"
-            scale="1 1 1">
+    <a-text
+      value="F(x,y)=(-y,x)"
+      position="-1 1.5 0"
+      color="yellow"
+      scale="1 1 1">
     </a-text>
 
   </a-marker>
@@ -31,38 +35,33 @@
 
 const marker = document.querySelector('#marker');
 
-// Crear muchos vectores
 for(let x = -2; x <= 2; x += 0.5){
 
   for(let y = -2; y <= 2; y += 0.5){
 
-    // Campo F(x,y)=(-y,x)
     let vx = -y;
     let vy = x;
 
-    // Magnitud
     let mag = Math.sqrt(vx*vx + vy*vy);
 
-    // Evitar división por cero
     if(mag === 0) continue;
 
-    // Normalizar
     vx /= mag;
     vy /= mag;
 
-    // Ángulo
     let angle = Math.atan2(vy, vx) * 180 / Math.PI;
 
-    // Flecha
-    let arrow = document.createElement('a-cylinder');
+    let arrow = document.createElement('a-box');
 
     arrow.setAttribute('position', `${x} ${y} 0`);
-    arrow.setAttribute('radius', '0.02');
-    arrow.setAttribute('height', '0.4');
+
+    arrow.setAttribute('depth', '0.02');
+    arrow.setAttribute('height', '0.02');
+    arrow.setAttribute('width', '0.4');
+
     arrow.setAttribute('color', 'blue');
 
-    // Rotación
-    arrow.setAttribute('rotation', `0 0 ${-angle + 90}`);
+    arrow.setAttribute('rotation', `0 0 ${angle}`);
 
     marker.appendChild(arrow);
   }
